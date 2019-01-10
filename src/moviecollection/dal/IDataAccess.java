@@ -16,7 +16,6 @@ import moviecollection.be.MovieFilter;
  */
 public interface IDataAccess
 {
-    public List<Movie> getFilteredMovies(String filter);
     public List<Movie> getFilteredMovies(MovieFilter filter);
     public List<Movie> getAllMovies();
     public List<Category> getAllCategories();
