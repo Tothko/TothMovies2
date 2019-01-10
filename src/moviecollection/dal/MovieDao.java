@@ -86,7 +86,7 @@ public class MovieDao
     }
 
     public List<Movie> getFilteredMovies(MovieFilter filter) {
-        return movies;
+        return null;
     }
 
     public void removeMovie(Movie movie) {
