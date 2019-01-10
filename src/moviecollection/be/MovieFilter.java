@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class MovieFilter
 {
-    public enum SortType { Title, Category, Rating , ID};
+    public enum SortType { Title, Category, GlobalRating , ID};
     private String title;
     private short rating;
     private List<Category> categories;

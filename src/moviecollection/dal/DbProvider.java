@@ -44,7 +44,7 @@ public class DbProvider implements IDbProvider
     
     private void loadProperties()
     {
-        try(FileInputStream input = new FileInputStream("DbConnection.prop")){
+        try(FileInputStream input = new FileInputStream("src/moviecollection/DbConnection.prop")){
             prop.load(input);
         }catch(IOException ex){
            Logger.getLogger(DbProvider.class.getName()).log(Level.SEVERE, null, ex); 
