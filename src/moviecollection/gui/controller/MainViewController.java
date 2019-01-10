@@ -67,7 +67,7 @@ public class MainViewController implements Initializable
     @FXML
     private void radioAll(ActionEvent event)
     {
-        //includeAll = true;
+        includeAll = true;
     }
 
     @FXML
@@ -120,17 +120,32 @@ public class MainViewController implements Initializable
         stage.setScene(new Scene(loader.load()));
         
         AddEditViewController window = loader.<AddEditViewController>getController();
+        window.setEdit(false);
         stage.show();
     }
 
     @FXML
     private void removeMovie(ActionEvent event)
     {
+        
     }
 
     @FXML
-    private void editMovie(ActionEvent event)
+    private void editMovie(ActionEvent event) throws IOException
     {
+        Movie selectedMovie = movieList.getSelectionModel().getSelectedItem();
+        if(selectedMovie != null)
+        {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/moviecollection/gui/view/AddEditView.fxml"));
+            stage.setScene(new Scene(loader.load()));
+
+            AddEditViewController window = loader.<AddEditViewController>getController();
+            window.setParameters(selectedMovie, model);
+            window.setEdit(true);
+            window.setMovie(selectedMovie);
+            stage.show();
+        }
     }
 
     @FXML

@@ -16,6 +16,7 @@ public class Movie
     private short personalRating;
     private String filePath;
     private int id;
+    private short movieYear;
     
     public Movie(){
         
@@ -67,6 +68,15 @@ public class Movie
     public void setId(int id) {
         this.id = id;
     }
+
+    public short getMovieYear() {
+        return movieYear;
+    }
+
+    public void setMovieYear(short movieYear) {
+        this.movieYear = movieYear;
+    }
+    
     
     
 }

@@ -65,7 +65,7 @@ public class ModelViewController
         return movieList;
     }
     
-    public List<CheckBox> getCategoryList()
+    public ObservableList<CheckBox> getCategoryList()
     {
         return categoryList;
     }
@@ -146,4 +146,5 @@ public class ModelViewController
         }
         return false;
     }
+    
 }

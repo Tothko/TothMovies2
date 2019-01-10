@@ -86,7 +86,7 @@ public class MovieDao
         }
     }
     
-    public static void main(String [] kkt)
+    /*public static void main(String [] kkt)
     {
         MovieFilter filt = new MovieFilter();
         filt.setTitle("testik");
@@ -99,7 +99,7 @@ public class MovieDao
         filt.setCategories(list);
         MovieDao dao = new MovieDao();
         dao.getFilteredMovies(filt);
-    }
+    }*/
 
     public List<Movie> getFilteredMovies(MovieFilter filter) 
     {
