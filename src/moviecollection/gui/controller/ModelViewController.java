@@ -123,7 +123,7 @@ public class ModelViewController
         if(movieList.contains(m))
         {
             m.setPersonalRating(rating);
-            model.setMovieRating(m, rating);
+            model.editMovie(m);
         }
     }
     
