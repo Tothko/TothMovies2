@@ -19,8 +19,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import moviecollection.be.Category;
 import moviecollection.be.Movie;
-import moviecollection.bll.BusinessModel;
-import moviecollection.bll.IModel;
 
 /**
  * FXML Controller class
@@ -49,7 +47,6 @@ public class AddEditViewController implements Initializable {
     }    
 
     private ModelViewController mvc;
-    private Movie m;
     private boolean edit = false;
     private Movie editMovie; 
     
@@ -89,9 +86,8 @@ public class AddEditViewController implements Initializable {
         st.close();
     }
     
-    public void setParameters(Movie m, ModelViewController mvc)
+    public void setModel(ModelViewController mvc)
     {
-        this.m = m;
         this.mvc = mvc;
         movieCat.setItems(mvc.getCategoryList());
     }
