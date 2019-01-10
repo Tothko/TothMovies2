@@ -59,6 +59,9 @@ public class CategoryDao
         {
             Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
         }
+        catch(SQLException ex){
+            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return Categories;
     
     }
@@ -73,6 +76,9 @@ public class CategoryDao
         catch(SQLServerException ex){
             Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
         }
+        catch(SQLException ex){
+            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void addCategory(Category c) {
@@ -83,6 +89,9 @@ public class CategoryDao
             stmt.execute();
         }
         catch(SQLServerException ex){
+            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch(SQLException ex){
             Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
