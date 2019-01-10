@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
@@ -22,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import moviecollection.be.Category;
 import moviecollection.be.Movie;
+import moviecollection.be.MovieFilter;
 
 /**
  *
@@ -59,21 +61,22 @@ public class MainViewController implements Initializable
     {
         //model = new ModelViewController();
         // TODO
+        movieFilter = new MovieFilter();
     }    
     
     private ModelViewController model;
-    private boolean includeAll = false;
+    private MovieFilter movieFilter;
     
     @FXML
     private void radioAll(ActionEvent event)
     {
-        includeAll = true;
+        movieFilter.setIncludeAll(true);
     }
 
     @FXML
     private void radioOne(ActionEvent event)
     {
-        includeAll = false;
+        movieFilter.setIncludeAll(false);
     }
 
     @FXML
@@ -120,6 +123,7 @@ public class MainViewController implements Initializable
         stage.setScene(new Scene(loader.load()));
         
         AddEditViewController window = loader.<AddEditViewController>getController();
+        window.setModel(model);
         window.setEdit(false);
         stage.show();
     }
@@ -151,6 +155,15 @@ public class MainViewController implements Initializable
     @FXML
     private void pressPlay(ActionEvent event)
     {
+        Movie selectedMovie = movieList.getSelectionModel().getSelectedItem();
+        if(selectedMovie != null)
+        {
+            if(!model.tryPlayMovie(selectedMovie))
+            {
+                new Alert(Alert.AlertType.ERROR, "Movie : '" + selectedMovie.getTitle() + "' can not be played").showAndWait();
+            }
+        }
+        
     }
     
 }
