@@ -35,7 +35,7 @@ public class MovieDao
         Movie retval = null;
         try
         {
-            retval = new Movie(rs.getInt("ID"),rs.getString("Name"));
+            retval = new Movie(rs.getInt("ID"),rs.getString("Title"));
         } catch (SQLException ex)
         {
             Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
