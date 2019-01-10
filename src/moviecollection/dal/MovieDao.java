@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import moviecollection.be.Category;
 import moviecollection.be.Movie;
 import moviecollection.be.MovieFilter;
 
@@ -39,7 +38,7 @@ public class MovieDao
             retval = new Movie(rs.getInt("ID"),rs.getString("Name"));
         } catch (SQLException ex)
         {
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return retval;
     }
@@ -57,10 +56,10 @@ public class MovieDao
             }
         } catch (SQLServerException ex)
         {
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch(SQLException ex){
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return movies;
     }
@@ -79,10 +78,10 @@ public class MovieDao
                  
         } catch (SQLServerException ex)
         {
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch(SQLException ex){
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -100,10 +99,10 @@ public class MovieDao
                  
         } catch (SQLServerException ex)
         {
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch(SQLException ex){
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -117,10 +116,10 @@ public class MovieDao
                  
         } catch (SQLServerException ex)
         {
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch(SQLException ex){
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }

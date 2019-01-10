@@ -70,14 +70,8 @@ public DataAccess(){
     @Override
     
     public void editMovie(Movie movie) {
-        MD.editMovie();
+        MD.editMovie(movie);
         
     }
-
-    @Override
-    public void setMovieRating(Movie movie, short rating){ 
-            MD.setMovieRating(movie, rating);
-    }
-    
-    
+   
 }

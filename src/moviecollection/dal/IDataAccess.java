@@ -24,5 +24,4 @@ public interface IDataAccess
     public void addCategory(Category category);
     public void removeCategory(Category category);
     public void editMovie(Movie movie);
-    public void setMovieRating(Movie movie, short rating);
 }
