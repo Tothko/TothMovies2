@@ -37,6 +37,9 @@ public class MovieDao
         try
         {
             retval = new Movie(rs.getInt("ID"),rs.getString("Title"));
+            retval.setFilePath(rs.getString("FilePath"));
+            retval.setPersonalRating(rs.getShort("PersonalRating"));
+            retval.setRating(rs.getShort("GlobalRating"));
         } catch (SQLException ex)
         {
             Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -85,17 +88,17 @@ public class MovieDao
             Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    /*public static void main(String [] kkt)
+    /*
+    public static void main(String [] kkt)
     {
         MovieFilter filt = new MovieFilter();
-        filt.setTitle("testik");
+        filt.setTitle("Lo");
         filt.setIncludeAll(true);
         filt.setOrder(MovieFilter.SortType.GlobalRating);
         filt.setRating((short)0);
         ArrayList<Category> list = new ArrayList();
-        list.add(new Category(0,"Action"));
-        list.add(new Category(1,"Thriller"));
+        list.add(new Category(1,"Action"));
+        list.add(new Category(2,"Thriller"));
         filt.setCategories(list);
         MovieDao dao = new MovieDao();
         dao.getFilteredMovies(filt);
@@ -117,13 +120,13 @@ public class MovieDao
         {
             String sqlStatement = "SELECT Movies.* "
                     + "FROM Movies " + catFilter
-                    + "WHERE Movies.Rating > ? AND Movies.Title LIKE ? ORDER BY " + filter.getSortType().name();
+                    + "WHERE Movies.GlobalRating >= ? AND Movies.Title LIKE ? ORDER BY " + filter.getSortType().name();
             PreparedStatement ps = con.prepareStatement(sqlStatement);
             int i;
             for (i = 1; i <= catList.size(); i++)
                 ps.setInt(i, catList.get(i - 1).getId());  
             ps.setInt(i++, filter.getRating());
-            ps.setString(i++, filter.getTitle());
+            ps.setString(i++, filter.getTitle() + "%");
             ResultSet rs = ps.executeQuery();
             while(rs.next())
             {
