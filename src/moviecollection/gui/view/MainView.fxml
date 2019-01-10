@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="716.0" prefWidth="1015.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="moviecollection.MainViewController">
+   <children>
+      <HBox layoutX="2.0" prefHeight="713.0" prefWidth="1013.0">
+         <children>
+            <VBox prefHeight="713.0" prefWidth="228.0">
+               <children>
+                  <Label alignment="TOP_CENTER" prefHeight="44.0" prefWidth="228.0" text="Filtering" />
+                  <RadioButton mnemonicParsing="false" onAction="#radioAll" text="Includes all">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="filter" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton mnemonicParsing="false" onAction="#radioOne" text="Includes 1" toggleGroup="$filter">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </RadioButton>
+                  <VBox prefHeight="493.0" prefWidth="228.0">
+                     <children>
+                        <ListView fx:id="catList" prefHeight="496.0" prefWidth="228.0" />
+                     </children></VBox>
+                  <Label text="Order by:" />
+                  <HBox prefHeight="56.0" prefWidth="228.0">
+                     <children>
+                        <ToggleButton mnemonicParsing="false" onAction="#orderByTitle" prefHeight="58.0" prefWidth="120.0" text="Title">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ToggleButton>
+                        <ToggleButton mnemonicParsing="false" onAction="#orderByCat" prefHeight="56.0" prefWidth="120.0" text="Cat">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ToggleButton>
+                        <ToggleButton mnemonicParsing="false" onAction="#orderByRating" prefHeight="56.0" prefWidth="120.0" text="Rating">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </ToggleButton>
+                     </children>
+                  </HBox>
+                  <TextField onKeyReleased="#searchCat">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <HBox prefHeight="39.0" prefWidth="228.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#addCat" text="Add" />
+                        <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#removeCat" text="Remove" textAlignment="CENTER">
+                           <HBox.margin>
+                              <Insets left="106.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="713.0" prefWidth="304.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="304.0">
+                     <children>
+                        <Label text="Movies" />
+                        <TextField onKeyReleased="#searchMovies">
+                           <HBox.margin>
+                              <Insets left="69.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <ListView fx:id="movieList" prefHeight="666.0" prefWidth="304.0" />
+                  <HBox prefHeight="45.0" prefWidth="304.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#addMovie" prefWidth="101.0" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#removeMovie" prefWidth="102.0" text="Remove" />
+                        <Button mnemonicParsing="false" onAction="#editMovie" prefWidth="101.0" text="Edit" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="713.0" prefWidth="480.0">
+               <children>
+                  <Label text="Description" />
+                  <AnchorPane prefHeight="662.0" prefWidth="480.0">
+                     <children>
+                        <ImageView fitHeight="210.0" fitWidth="200.0" layoutX="21.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="movieTitle" layoutX="301.0" layoutY="64.0" text="Movie Title" />
+                        <Label layoutX="284.0" layoutY="123.0" text="Rating" />
+                        <Text fx:id="movieDesc" layoutX="141.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="87.6708984375" />
+                        <ProgressBar fx:id="ratingBar" layoutX="201.0" layoutY="144.0" prefWidth="200.0" progress="0.0" />
+                        <Label fx:id="rating" layoutX="415.0" layoutY="145.0" text="0/10" />
+                        <Button layoutX="284.0" layoutY="545.0" mnemonicParsing="false" onAction="#pressPlay" text="Play" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
