@@ -9,8 +9,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
@@ -28,7 +26,7 @@ import moviecollection.bll.IModel;
 public class ModelViewController
 {
     private ObservableList<Movie> movieList;
-    private ObservableList<Category> categoryList;
+    private ObservableList<CheckBox> categoryList;
     private IModel model;
     private MovieFilter filter;
     
@@ -44,7 +42,10 @@ public class ModelViewController
         model = new BusinessModel();
         filter = new MovieFilter();
         movieList = FXCollections.observableArrayList(model.getAllMovies());
-        categoryList = FXCollections.observableArrayList(model.getAllCategories());
+        categoryList = FXCollections.observableArrayList();
+        List<Category> temp = model.getAllCategories();
+        for(Category cat: temp)
+            categoryList.add(new CheckBox(cat.getName()));
     }
     
     public void setMovieFilter(String filter)
@@ -64,44 +65,66 @@ public class ModelViewController
         return movieList;
     }
     
-    public List<Category> getCategoryList()
+    public List<CheckBox> getCategoryList()
     {
         return categoryList;
     }
     
     public void addMovie(Movie m)
     {
-        model.addMovie(m);
-        movieList.add(m);
+        if(!movieList.contains(m))
+        {
+            model.addMovie(m);
+            movieList.add(m);
+        }
     }
     
     public void removeMovie(Movie m)
     {
-        model.removeMovie(m);
-        movieList.remove(m);
+        if(movieList.contains(m))
+        {
+            model.removeMovie(m);
+            movieList.remove(m);
+        }
     }
     
     public void addCategory(Category c)
     {
+        for(CheckBox chb: categoryList)
+        {
+            if(chb.getText().toLowerCase().equals(c.getName().toLowerCase()))
+                return;
+        }
         model.addCategory(c);
-        categoryList.add(c);
+        categoryList.add(new CheckBox(c.getName()));
     }
     
     public void removeCategory(Category c)
     {
-        model.removeCategory(c);
-        categoryList.remove(c);
+        for(CheckBox chb: categoryList)
+        {
+            if(chb.getText().toLowerCase().equals(c.getName().toLowerCase()))
+            {
+                categoryList.remove(chb);
+                model.removeCategory(c);
+                break;
+            }
+        }
     }
     
     public void editMovie(Movie m)
     {
-        model.editMovie(m);
+        if(movieList.contains(m))
+            model.editMovie(m);
     }
     
     public void setMovieRating(Movie m,short rating)
     {
-        m.setPersonalRating(rating);
-        model.setMovieRating(m, rating);
+        if(movieList.contains(m))
+        {
+            m.setPersonalRating(rating);
+            model.setMovieRating(m, rating);
+        }
     }
     
     public boolean tryPlayMovie(Movie m)

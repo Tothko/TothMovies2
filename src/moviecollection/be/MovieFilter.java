@@ -18,6 +18,29 @@ public class MovieFilter
     private short rating;
     private List<Category> categories;
     private SortType order;
+    private boolean includeAll;
+
+    public SortType getOrder()
+    {
+        return order;
+    }
+
+    public boolean isIncludeAll()
+    {
+        return includeAll;
+    }
+
+    public void setOrder(SortType order)
+    {
+        this.order = order;
+    }
+
+    public void setIncludeAll(boolean includeAll)
+    {
+        this.includeAll = includeAll;
+    }
+    
+    
     
     public void setTitle(String title)
     {
