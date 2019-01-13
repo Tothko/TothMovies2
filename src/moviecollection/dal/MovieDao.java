@@ -31,7 +31,7 @@ public class MovieDao
     conProvider = new DbProvider();
 }
     
-    private Movie movieFromRs(ResultSet rs)
+    private Movie movieFromRs(ResultSet rs) //Missing categories
     {
         Movie retval = null;
         try
@@ -47,7 +47,8 @@ public class MovieDao
         return retval;
     }
 
-    public List<Movie> getAllMovies() {
+    public List<Movie> getAllMovies()  //Probably categories again
+    {
         List<Movie> movies = new ArrayList<>();
         try(Connection con = conProvider.getConnection())
         {
@@ -68,7 +69,7 @@ public class MovieDao
         return movies;
     }
 
-    public void editMovie(Movie movie) {
+    public void editMovie(Movie movie) { //Missing editing of categories
         
         try(Connection con = conProvider.getConnection())
         {
@@ -104,7 +105,7 @@ public class MovieDao
         dao.getFilteredMovies(filt);
     }*/
 
-    public List<Movie> getFilteredMovies(MovieFilter filter) 
+    public List<Movie> getFilteredMovies(MovieFilter filter)  //We will see wether we will add lsit of categories to each movie
     {
         List<Movie> movies = new ArrayList<>();
         List<Category> catList = filter.getCategories();
@@ -142,29 +143,30 @@ public class MovieDao
         return movies;
     }
 
-    public void removeMovie(Movie movie) {
- try(Connection con = conProvider.getConnection()){
-            String sql = "DELETE From CatMovie WHERE ID = ?; DELETE From Movies WHERE ID = ? ";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, movie.getId());
-            ps.setInt(2, movie.getId());
-            ps.execute();
-                 
-        } catch (SQLServerException ex)
-        {
-            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch(SQLException ex){
-            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void removeMovie(Movie movie) { //Should be DONE
+        try(Connection con = conProvider.getConnection()){
+                   String sql = "DELETE From CatMovie WHERE MovieID = " + movie.getId() + "; DELETE From Movies WHERE ID = " + movie.getId();
+                   Statement stmt = con.createStatement();
+                   stmt.execute(sql);
+
+               } catch (SQLServerException ex)
+               {
+                   Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
+               }
+               catch(SQLException ex){
+                   Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
+               }
     }
 
-    public void addMovie(Movie movie) {
+    public void addMovie(Movie movie) { //Missing adding categories
         
         try(Connection con = conProvider.getConnection()){
-            String sql = "INSERT INTO Movies (Title) VALUES (?)";
+            String sql = "INSERT INTO Movies (Title,GlobalRating,PersonalRating,FilePath) VALUES (?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, movie.getTitle());
+            ps.setShort(2, movie.getRating());
+            ps.setShort(3, movie.getPersonalRating());
+            ps.setString(4, movie.getFilePath());
             ps.execute();
                  
         } catch (SQLServerException ex)

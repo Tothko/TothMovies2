@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
@@ -36,7 +37,7 @@ public class MainViewController implements Initializable
     @FXML
     private ToggleGroup filter;
     @FXML
-    private ListView<Category> catList;
+    private ListView<CheckBox> catList;
     @FXML
     private ListView<Movie> movieList;
     @FXML
@@ -59,9 +60,11 @@ public class MainViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        //model = new ModelViewController();
+        model = new ModelViewController();
         // TODO
         movieFilter = new MovieFilter();
+        catList.setItems(model.getCategoryList());
+        
     }    
     
     private ModelViewController model;

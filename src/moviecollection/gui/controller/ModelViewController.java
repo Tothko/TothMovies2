@@ -60,7 +60,7 @@ public class ModelViewController
         movieList.setAll(model.getFilteredMovies(filter));
     }
     
-    public List<Movie> getMovieList()
+    public ObservableList<Movie> getMovieList()
     {
         return movieList;
     }

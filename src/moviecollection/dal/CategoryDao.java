@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import moviecollection.be.Category;
 
 /**
@@ -43,6 +41,7 @@ public class CategoryDao
         }
         return retval;
     }
+    
     public List<Category> getlAllCategories() {
         
         List<Category> Categories = new ArrayList<>();
@@ -68,10 +67,9 @@ public class CategoryDao
 
     public void removeCategory(Category c){
         try (Connection con = conProvider.getConnection()){
-            String sql = "DELETE FROM Categories WHERE ID=?";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, c.getId());
-            stmt.execute();
+            String sql = "DELETE FROM CatMovie WHERE CatID = " + c.getId() + " DELETE FROM Categories WHERE ID = " + c.getId();
+            Statement stmt = con.createStatement();// prepareStatement(sql);
+            stmt.execute(sql);
         }
         catch(SQLServerException ex){
             Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
