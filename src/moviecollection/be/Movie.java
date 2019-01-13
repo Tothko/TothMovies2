@@ -77,6 +77,12 @@ public class Movie
         this.movieYear = movieYear;
     }
     
+    @Override
+    public String toString()
+    {
+        return title;
+    }
+    
     
     
 }

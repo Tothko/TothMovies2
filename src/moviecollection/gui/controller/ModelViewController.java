@@ -129,7 +129,8 @@ public class ModelViewController
     
     public boolean tryPlayMovie(Movie m)
     {
-        if(!m.getFilePath().isEmpty())
+        String fpath = m.getFilePath();
+        if(fpath != null && !fpath.isEmpty())
         {
             File f = new File(m.getFilePath());
             if(f.exists() && !f.isDirectory()) 

@@ -78,7 +78,7 @@ public class AddEditViewController implements Initializable {
             m.setMovieYear(yearShort);
             m.setFilePath(fileField.getText());
             //ADD CATEGORIES
-            //mvc.addMovie(m);
+            mvc.addMovie(m);
             
         }
         

@@ -49,14 +49,7 @@ public class MainViewController implements Initializable
     @FXML
     private Label rating;
     
-    
-    
-    private void handleButtonAction(ActionEvent event)
-    {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-    
+   
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -64,7 +57,7 @@ public class MainViewController implements Initializable
         // TODO
         movieFilter = new MovieFilter();
         catList.setItems(model.getCategoryList());
-        
+        movieList.setItems(model.getMovieList());        
     }    
     
     private ModelViewController model;
@@ -128,7 +121,7 @@ public class MainViewController implements Initializable
         AddEditViewController window = loader.<AddEditViewController>getController();
         window.setModel(model);
         window.setEdit(false);
-        stage.show();
+        stage.showAndWait();
     }
 
     @FXML
