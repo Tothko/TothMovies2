@@ -48,9 +48,9 @@ public class BusinessModel implements IModel
     }
 
     @Override
-    public void addMovie(Movie m)
+    public void addMovie(Movie m, List<Category> categories)
     {
-        dao.addMovie(m);
+        dao.addMovie(m, categories);
     }
 
     @Override
@@ -72,9 +72,9 @@ public class BusinessModel implements IModel
     }
 
     @Override
-    public void editMovie(Movie m)
+    public void editMovie(Movie m, List<Category> categories)
     {
-        dao.editMovie(m);
+        dao.editMovie(m, categories);
     }
 
     
