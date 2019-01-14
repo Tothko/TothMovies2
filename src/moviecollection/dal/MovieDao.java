@@ -69,17 +69,26 @@ public class MovieDao
         return movies;
     }
 
-    public void editMovie(Movie movie) { //Missing editing of categories
+    public void editMovie(Movie movie, List<Category> categories) { //Missing editing of categories
         
         try(Connection con = conProvider.getConnection())
         {
             String sql = "UPDATE Movies SET Title = ?, Rating = ?, PersonalRating = ?, FilePath = ?, WHERE id = ?";
+            String sql2 = "UPDATE CatMovie SET MovieID = ? , CatID = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, movie.getTitle());
             ps.setShort(2, movie.getRating());
             ps.setShort(3, movie.getPersonalRating());
             ps.setInt(4, movie.getId());
+            
             ps.execute();
+            for (Category category : categories) {
+                PreparedStatement ps2 = con.prepareStatement(sql2);
+                ps2.setInt(1, movie.getId());
+                ps2.setInt(2, category.getId());
+                ps2.execute();
+                
+            }
                  
         } catch (SQLServerException ex)
         {
@@ -158,16 +167,24 @@ public class MovieDao
                }
     }
 
-    public void addMovie(Movie movie) { //Missing adding categories
+    public void addMovie(Movie movie, List<Category> categories) { //Missing adding categories
         
         try(Connection con = conProvider.getConnection()){
             String sql = "INSERT INTO Movies (Title,GlobalRating,PersonalRating,FilePath) VALUES (?,?,?,?)";
+            String sql2 = "INSERT INTO CatMovie (MovieID,CatID) VALUES (?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, movie.getTitle());
             ps.setShort(2, movie.getRating());
             ps.setShort(3, movie.getPersonalRating());
             ps.setString(4, movie.getFilePath());
             ps.execute();
+            for (Category category : categories) {
+                PreparedStatement ps2 = con.prepareStatement(sql2);
+                ps2.setInt(1, movie.getId());
+                ps2.setInt(2, category.getId());
+                ps2.execute();
+                
+            }
                  
         } catch (SQLServerException ex)
         {

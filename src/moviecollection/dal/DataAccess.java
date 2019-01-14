@@ -47,8 +47,8 @@ public DataAccess(){
     }
 
     @Override
-    public void addMovie(Movie movie) {
-        MD.addMovie(movie);
+    public void addMovie(Movie movie, List<Category> categories) {
+        MD.addMovie(movie, categories);
         
         }
 
@@ -69,8 +69,8 @@ public DataAccess(){
 
     @Override
     
-    public void editMovie(Movie movie) {
-        MD.editMovie(movie);
+    public void editMovie(Movie movie, List<Category> categories) {
+        MD.editMovie(movie, categories);
         
     }
    
