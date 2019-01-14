@@ -79,12 +79,16 @@ public class CategoryDao
         }
     }
 
-    public void addCategory(Category c) {
+    public void addCategory(Category c) 
+    {
         try (Connection con = conProvider.getConnection()){
             String sql = "INSERT INTO Categories (Name) VALUES (?)";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, c.getName());
             stmt.execute();
+            ResultSet rs = con.createStatement().executeQuery("SELECT MAX(ID) as ID FROM Categories"); //this is done because we need to provide id to newly created song object
+            rs.next();
+            c.setId(rs.getInt("ID"));
         }
         catch(SQLServerException ex){
             Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
