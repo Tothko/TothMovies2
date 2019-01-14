@@ -61,7 +61,6 @@ public class MainViewController implements Initializable
     {
         model = new ModelViewController();
         // TODO
-        movieFilter = new MovieFilter();
         catList.setItems(model.getCategoryList());
         movieList.setItems(model.getMovieList());        
     }    
@@ -72,13 +71,13 @@ public class MainViewController implements Initializable
     @FXML
     private void radioAll(ActionEvent event)
     {
-        movieFilter.setIncludeAll(true);
+        model.setIncludeAll(true);
     }
 
     @FXML
     private void radioOne(ActionEvent event)
     {
-        movieFilter.setIncludeAll(false);
+        model.setIncludeAll(false);
     }
 
     @FXML

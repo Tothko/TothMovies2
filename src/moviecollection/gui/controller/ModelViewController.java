@@ -8,6 +8,7 @@ package moviecollection.gui.controller;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +28,7 @@ public class ModelViewController
 {
     private ObservableList<Movie> movieList;
     private ObservableList<CheckBox> categoryCheckBoxList;
+    private ObservableList<CheckBox> movieEditCheckBoxes;
     private List<Category> categoryList;
     private IModel model;
     private MovieFilter filter;
@@ -47,7 +49,35 @@ public class ModelViewController
         categoryList = FXCollections.observableArrayList();
         categoryList = model.getAllCategories();
         for(Category cat: categoryList)
-            categoryCheckBoxList.add(new CheckBox(cat.getName()));
+        {
+            CheckBox chb = createCheckBoxFromCategory(cat);
+            categoryCheckBoxList.add(chb);
+        }
+    }
+    
+    private CheckBox createCheckBoxFromCategory(Category cat)
+    {
+            CheckBox chb = new CheckBox(cat.getName());
+            chb.setOnAction( e -> 
+            {
+                CheckBox source = (CheckBox)e.getSource();
+                Category selectedCategory = null;
+                for (Category category : categoryList)
+                {
+                    if(category.getName().toLowerCase().equals(source.getText().toLowerCase()))
+                        selectedCategory = category;
+                }
+                
+                if(selectedCategory != null)
+                {
+                    if(source.isSelected())
+                        filter.addCategory(cat);
+                    else
+                        filter.removeCategory(cat);
+                    movieList.setAll(model.getFilteredMovies(this.filter));
+                }   
+            });
+            return chb;
     }
     
     public void setMovieFilter(String filter)
@@ -56,10 +86,22 @@ public class ModelViewController
         movieList.setAll(model.getFilteredMovies(this.filter));
     }
     
-    public void setMovieFilter(MovieFilter filter)
+    public void setIncludeAll(boolean includeAll)
     {
-        this.filter = filter;
-        movieList.setAll(model.getFilteredMovies(filter));
+        filter.setIncludeAll(includeAll);
+        movieList.setAll(model.getFilteredMovies(filter));  
+    }
+    
+    public void setOrderBy(MovieFilter.SortType order)
+    {
+        filter.setOrder(order);
+        movieList.setAll(model.getFilteredMovies(filter)); 
+    }
+    
+    public void setMinimumRating(short rating)
+    {
+        filter.setRating(rating);
+        movieList.setAll(model.getFilteredMovies(filter)); 
     }
     
     public ObservableList<Movie> getMovieList()
@@ -72,11 +114,21 @@ public class ModelViewController
         return categoryCheckBoxList;
     }
     
+    public ObservableList<CheckBox> getMovieEditCheckBoxes()
+    {
+        movieEditCheckBoxes = FXCollections.observableArrayList();
+        for (Category category : categoryList)
+        {
+            movieEditCheckBoxes.add(new CheckBox(category.getName()));
+        }
+        return movieEditCheckBoxes;
+    }
+    
     public void addMovie(Movie m)
     {
         if(!movieList.contains(m))
         {
-            model.addMovie(m);
+            model.addMovie(m,getSelectedCategoryList(movieEditCheckBoxes));
             movieList.add(m);
         }
     }
@@ -99,7 +151,7 @@ public class ModelViewController
         }
         model.addCategory(c);
         categoryList.add(c);
-        categoryCheckBoxList.add(new CheckBox(c.getName()));
+        categoryCheckBoxList.add(createCheckBoxFromCategory(c));
     }
     
     public void removeCategory(String categoryName)
@@ -126,7 +178,9 @@ public class ModelViewController
     public void editMovie(Movie m)
     {
         if(movieList.contains(m))
-            model.editMovie(m);
+        {
+            model.editMovie(m,getSelectedCategoryList(movieEditCheckBoxes));
+        }
     }
     
     public void setMovieRating(Movie m,short rating)
@@ -134,7 +188,7 @@ public class ModelViewController
         if(movieList.contains(m))
         {
             m.setPersonalRating(rating);
-            model.editMovie(m);
+            model.setMoviePersonalRating(m,rating);
         }
     }
     
@@ -157,6 +211,18 @@ public class ModelViewController
             }
         }
         return false;
+    }
+        
+    private List<Category> getSelectedCategoryList(List<CheckBox> CheckBoxes)
+    {
+            List<Category> retval = new ArrayList();
+            for (int i = 0; i < CheckBoxes.size(); i++)
+            {
+                CheckBox chb = CheckBoxes.get(i);
+                if(chb.isSelected())
+                    retval.add(categoryList.get(i));                
+            }  
+            return retval;
     }
     
 }

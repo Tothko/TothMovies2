@@ -48,7 +48,21 @@ public class MovieFilter
         this.includeAll = includeAll;
     }
     
+    public void addCategory(Category category)
+    {
+        if(!categories.contains(category))
+        {
+            categories.add(category);
+        }
+    }
     
+    public void removeCategory(Category category)
+    {
+        if(categories.contains(category))
+        {
+            categories.remove(category);
+        }
+    }
     
     public void setTitle(String title)
     {

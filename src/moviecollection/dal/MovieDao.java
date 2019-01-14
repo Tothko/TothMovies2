@@ -122,21 +122,19 @@ public class MovieDao
         String orAnd = filter.isIncludeAll() ? "AND" : "OR";
         if(catList.size() > 0)
         {
-            catFilter += "LEFT JOIN CatMovie ON CatMovie.CatID = ? ";
+            catFilter += "AND (CatMovie.CatID = " + catList.get(0).getId() +" ";
             for(int i = 1; i < catList.size(); i++)
-                catFilter += orAnd + " CatMovie.CatID = ? ";
+                catFilter += orAnd + " CatMovie.CatID = " + catList.get(i).getId() + " ";
+            catFilter += ')';
         }
         try(Connection con = conProvider.getConnection())
         {
-            String sqlStatement = "SELECT Movies.* "
-                    + "FROM Movies " + catFilter
-                    + "WHERE Movies.GlobalRating >= ? AND Movies.Title LIKE ? ORDER BY " + filter.getSortType().name();
+            String sqlStatement = "SELECT DISTINCT Movies.* "
+                    + "FROM Movies LEFT JOIN CatMovie ON CatMovie.MovieID = Movies.ID "
+                    + "WHERE Movies.GlobalRating >= ? AND Movies.Title LIKE ? " + catFilter + " ORDER BY " + filter.getSortType().name();
             PreparedStatement ps = con.prepareStatement(sqlStatement);
-            int i;
-            for (i = 1; i <= catList.size(); i++)
-                ps.setInt(i, catList.get(i - 1).getId());  
-            ps.setInt(i++, filter.getRating());
-            ps.setString(i++, filter.getTitle() + "%");
+            ps.setInt(1, filter.getRating());
+            ps.setString(2, filter.getTitle() + "%");
             ResultSet rs = ps.executeQuery();
             while(rs.next())
             {
@@ -171,19 +169,18 @@ public class MovieDao
         
         try(Connection con = conProvider.getConnection()){
             String sql = "INSERT INTO Movies (Title,GlobalRating,PersonalRating,FilePath) VALUES (?,?,?,?)";
-            String sql2 = "INSERT INTO CatMovie (MovieID,CatID) VALUES (?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, movie.getTitle());
             ps.setShort(2, movie.getRating());
             ps.setShort(3, movie.getPersonalRating());
             ps.setString(4, movie.getFilePath());
             ps.execute();
+            ResultSet rs = con.createStatement().executeQuery("SELECT MAX(ID) as ID FROM Movies"); //this is done because we need to provide id to newly created movie object
+            rs.next();
+            movie.setId(rs.getInt("ID"));
             for (Category category : categories) {
-                PreparedStatement ps2 = con.prepareStatement(sql2);
-                ps2.setInt(1, movie.getId());
-                ps2.setInt(2, category.getId());
-                ps2.execute();
-                
+                Statement stmt = con.createStatement(); // prepareStatement(sql2);
+                stmt.execute("INSERT INTO CatMovie (MovieID,CatID) VALUES ( " + movie.getId() + ',' + category.getId() + " );"); 
             }
                  
         } catch (SQLServerException ex)
@@ -194,6 +191,11 @@ public class MovieDao
             Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+    
+    public void setMoviePersonalRating(Movie movie, short rating)
+    {
+            
     }
     
 }

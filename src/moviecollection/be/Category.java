@@ -16,7 +16,7 @@ public class Category
     private int id;
 public Category(int ID, String name){
      this.name = name;
-     this.id = id;
+     this.id = ID;
     }
     public String getName() {
         return name;

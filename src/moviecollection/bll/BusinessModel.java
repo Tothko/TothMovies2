@@ -77,5 +77,11 @@ public class BusinessModel implements IModel
         dao.editMovie(m, categories);
     }
 
+    @Override
+    public void setMoviePersonalRating(Movie m, short rating)
+    {
+        dao.setMoviePersonalRating(m, rating);
+    }
+
     
 }

@@ -15,19 +15,16 @@ import moviecollection.be.MovieFilter;
  * @author Marek
  */
 public class DataAccess implements IDataAccess
-
-   
-
 {
          private MovieDao MD;
         private CategoryDao CD;
 
-public DataAccess(){
-    MD = new MovieDao();
-    CD = new CategoryDao();
+    public DataAccess(){
+        MD = new MovieDao();
+        CD = new CategoryDao();
 
 
-}
+    }
 
    
 
@@ -72,6 +69,12 @@ public DataAccess(){
     public void editMovie(Movie movie, List<Category> categories) {
         MD.editMovie(movie, categories);
         
+    }
+
+    @Override
+    public void setMoviePersonalRating(Movie movie, short rating)
+    {
+        MD.setMoviePersonalRating(movie ,rating);
     }
    
 }

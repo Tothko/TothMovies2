@@ -86,7 +86,7 @@ public class CategoryDao
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, c.getName());
             stmt.execute();
-            ResultSet rs = con.createStatement().executeQuery("SELECT MAX(ID) as ID FROM Categories"); //this is done because we need to provide id to newly created song object
+            ResultSet rs = con.createStatement().executeQuery("SELECT MAX(ID) as ID FROM Categories"); //this is done because we need to provide id to newly created category object
             rs.next();
             c.setId(rs.getInt("ID"));
         }

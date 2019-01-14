@@ -89,7 +89,7 @@ public class AddEditViewController implements Initializable {
     public void setModel(ModelViewController mvc)
     {
         this.mvc = mvc;
-        movieCat.setItems(mvc.getCategoryList());
+        movieCat.setItems(mvc.getMovieEditCheckBoxes());
     }
 
     @FXML
