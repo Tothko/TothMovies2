@@ -88,7 +88,7 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="304.0">
                      <children>
                         <Label text="Movies" />
-                        <TextField onKeyReleased="#searchMovies">
+                        <TextField fx:id="movieTextFilter" onKeyReleased="#searchMovies">
                            <HBox.margin>
                               <Insets left="69.0" />
                            </HBox.margin>

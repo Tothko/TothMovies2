@@ -7,6 +7,7 @@ package moviecollection.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
@@ -48,6 +50,8 @@ public class MainViewController implements Initializable
     private ProgressBar ratingBar;
     @FXML
     private Label rating;
+    @FXML
+    private TextField movieTextFilter;
     
    
     @Override
@@ -109,6 +113,7 @@ public class MainViewController implements Initializable
     @FXML
     private void searchMovies(KeyEvent event)
     {
+        model.setMovieFilter(movieTextFilter.getText());
     }
 
     @FXML
