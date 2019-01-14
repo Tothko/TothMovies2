@@ -5,6 +5,7 @@
  */
 package moviecollection.be;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +20,13 @@ public class MovieFilter
     private List<Category> categories;
     private SortType order;
     private boolean includeAll;
+    
+    public MovieFilter()
+    {
+        categories = new ArrayList();
+        order = SortType.Title;
+        title = "";
+    }
 
     public SortType getOrder()
     {
