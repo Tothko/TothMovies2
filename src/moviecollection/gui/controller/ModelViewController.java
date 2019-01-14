@@ -26,7 +26,8 @@ import moviecollection.bll.IModel;
 public class ModelViewController
 {
     private ObservableList<Movie> movieList;
-    private ObservableList<CheckBox> categoryList;
+    private ObservableList<CheckBox> categoryCheckBoxList;
+    private List<Category> categoryList;
     private IModel model;
     private MovieFilter filter;
     
@@ -42,10 +43,11 @@ public class ModelViewController
         model = new BusinessModel();
         filter = new MovieFilter();
         movieList = FXCollections.observableArrayList(model.getAllMovies());
+        categoryCheckBoxList = FXCollections.observableArrayList();
         categoryList = FXCollections.observableArrayList();
-        List<Category> temp = model.getAllCategories();
-        for(Category cat: temp)
-            categoryList.add(new CheckBox(cat.getName()));
+        categoryList = model.getAllCategories();
+        for(Category cat: categoryList)
+            categoryCheckBoxList.add(new CheckBox(cat.getName()));
     }
     
     public void setMovieFilter(String filter)
@@ -67,7 +69,7 @@ public class ModelViewController
     
     public ObservableList<CheckBox> getCategoryList()
     {
-        return categoryList;
+        return categoryCheckBoxList;
     }
     
     public void addMovie(Movie m)
@@ -90,23 +92,32 @@ public class ModelViewController
     
     public void addCategory(Category c)
     {
-        for(CheckBox chb: categoryList)
+        for(CheckBox chb: categoryCheckBoxList)
         {
             if(chb.getText().toLowerCase().equals(c.getName().toLowerCase()))
                 return;
         }
         model.addCategory(c);
-        categoryList.add(new CheckBox(c.getName()));
+        categoryList.add(c);
+        categoryCheckBoxList.add(new CheckBox(c.getName()));
     }
     
-    public void removeCategory(Category c)
+    public void removeCategory(String categoryName)
     {
-        for(CheckBox chb: categoryList)
+        Category delCat = null;
+        for(Category cat: categoryList)
         {
-            if(chb.getText().toLowerCase().equals(c.getName().toLowerCase()))
+            if(cat.getName().toLowerCase().equals(categoryName.toLowerCase()))
+                delCat = cat;                
+        }
+        if(delCat == null)
+            return;
+        for(CheckBox chb: categoryCheckBoxList)
+        {
+            if(chb.getText().toLowerCase().equals(categoryName.toLowerCase()))
             {
-                categoryList.remove(chb);
-                model.removeCategory(c);
+                categoryCheckBoxList.remove(chb);
+                model.removeCategory(delCat);
                 break;
             }
         }

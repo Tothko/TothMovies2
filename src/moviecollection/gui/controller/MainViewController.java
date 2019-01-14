@@ -112,8 +112,7 @@ public class MainViewController implements Initializable
     @FXML
     private void removeCat(ActionEvent event)
     {
-        Category c = new Category(0, catSearchBar.getText());
-        model.removeCategory(c);
+        model.removeCategory(catSearchBar.getText());
     }
 
     @FXML
