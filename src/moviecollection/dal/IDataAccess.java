@@ -19,9 +19,9 @@ public interface IDataAccess
     public List<Movie> getFilteredMovies(MovieFilter filter);
     public List<Movie> getAllMovies();
     public List<Category> getAllCategories();
-    public void addMovie(Movie movie);
+    public void addMovie(Movie movie, List<Category> categories);
     public void removeMovie(Movie movie);
     public void addCategory(Category category);
     public void removeCategory(Category category);
-    public void editMovie(Movie movie);
+    public void editMovie(Movie movie, List<Category> categories);
 }

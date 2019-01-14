@@ -19,9 +19,9 @@ public interface IModel
     List<Movie> getFilteredMovies(MovieFilter filter);
     List<Movie> getAllMovies();
     List<Category> getAllCategories();
-    void addMovie(Movie m);
+    void addMovie(Movie m, List<Category> categories);
     void removeMovie(Movie m);
     void addCategory(Category c);
     void removeCategory(Category c);
-    void editMovie(Movie m);
+    void editMovie(Movie m, List<Category> categories);
 }
