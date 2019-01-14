@@ -52,6 +52,8 @@ public class MainViewController implements Initializable
     private Label rating;
     @FXML
     private TextField movieTextFilter;
+    @FXML
+    private TextField catSearchBar;
     
    
     @Override
@@ -102,12 +104,16 @@ public class MainViewController implements Initializable
     @FXML
     private void addCat(ActionEvent event)
     {
+        Category c = new Category(0, catSearchBar.getText());
+        model.addCategory(c);
         
     }
 
     @FXML
     private void removeCat(ActionEvent event)
     {
+        Category c = new Category(0, catSearchBar.getText());
+        model.removeCategory(c);
     }
 
     @FXML
@@ -132,7 +138,8 @@ public class MainViewController implements Initializable
     @FXML
     private void removeMovie(ActionEvent event)
     {
-        
+        Movie m = movieList.getSelectionModel().getSelectedItem();
+        model.removeMovie(m);
     }
 
     @FXML
