@@ -73,13 +73,16 @@ public class MovieDao
         
         try(Connection con = conProvider.getConnection())
         {
-            String sql = "UPDATE Movies SET Title = ?, Rating = ?, PersonalRating = ?, FilePath = ?, WHERE id = ?";
+            String sql = "UPDATE Movies SET Title = ?, GlobalRating = ?, PersonalRating = ?, FilePath = ?, Year = ? WHERE id = ?";
             String sql2 = "UPDATE CatMovie SET MovieID = ? , CatID = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, movie.getTitle());
             ps.setShort(2, movie.getRating());
             ps.setShort(3, movie.getPersonalRating());
-            ps.setInt(4, movie.getId());
+            ps.setString(4, movie.getFilePath());
+            ps.setShort(5, movie.getMovieYear());
+            ps.setInt(6, movie.getId());
+            
             
             ps.execute();
             for (Category category : categories) {
