@@ -76,5 +76,11 @@ public class DataAccess implements IDataAccess
     {
         MD.setMoviePersonalRating(movie ,rating);
     }
+
+    @Override
+    public List<Integer> getMovieCategories(Movie m)
+    {
+        return MD.getMovieCategories(m);
+    }
    
 }

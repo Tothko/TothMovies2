@@ -25,4 +25,5 @@ public interface IDataAccess
     public void removeCategory(Category category);
     public void editMovie(Movie movie, List<Category> categories);
     public void setMoviePersonalRating(Movie movie,short rating);
+    public List<Integer> getMovieCategories(Movie m);
 }

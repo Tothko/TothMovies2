@@ -82,6 +82,12 @@ public class BusinessModel implements IModel
     {
         dao.setMoviePersonalRating(m, rating);
     }
+    
+    @Override
+    public List<Integer> getMovieCategories(Movie m)
+    {
+        return dao.getMovieCategories(m);
+    }
 
     
 }

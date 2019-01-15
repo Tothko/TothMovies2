@@ -16,13 +16,14 @@ import moviecollection.be.MovieFilter;
  */
 public interface IModel
 {
-    List<Movie> getFilteredMovies(MovieFilter filter);
-    List<Movie> getAllMovies();
-    List<Category> getAllCategories();
-    void addMovie(Movie m, List<Category> categories);
-    void removeMovie(Movie m);
-    void addCategory(Category c);
-    void removeCategory(Category c);
-    void editMovie(Movie m, List<Category> categories);
-    void setMoviePersonalRating(Movie m, short rating);
+    public List<Movie> getFilteredMovies(MovieFilter filter);
+    public List<Movie> getAllMovies();
+    public List<Category> getAllCategories();
+    public void addMovie(Movie m, List<Category> categories);
+    public void removeMovie(Movie m);
+    public void addCategory(Category c);
+    public void removeCategory(Category c);
+    public void editMovie(Movie m, List<Category> categories);
+    public void setMoviePersonalRating(Movie m, short rating);
+    public List<Integer> getMovieCategories(Movie m);
 }
