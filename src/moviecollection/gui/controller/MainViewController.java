@@ -22,6 +22,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import moviecollection.be.Category;
@@ -154,7 +155,9 @@ public class MainViewController implements Initializable
             window.setModel(model);
             window.setEdit(true);
             window.setMovie(selectedMovie);
-            stage.show();
+            stage.showAndWait();
+            movieList.refresh();
+            selectMovie(null);
         }
     }
 
@@ -170,6 +173,16 @@ public class MainViewController implements Initializable
             }
         }
         
+    }
+
+    @FXML
+    private void selectMovie(MouseEvent event) {
+        Movie m = movieList.getSelectionModel().getSelectedItem();
+        rating.setText(m.getRating()+"/10");
+        ratingBar.setProgress(((double)m.getRating())/10);
+        movieTitle.setText(m.getTitle());
+        if(m.getMovieYear()!=0)
+            movieTitle.setText(movieTitle.getText()+" ("+m.getMovieYear()+")");
     }
     
 }

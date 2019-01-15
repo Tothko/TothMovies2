@@ -50,13 +50,16 @@
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="orderBy" />
+                           </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton mnemonicParsing="false" onAction="#orderByCat" prefHeight="56.0" prefWidth="120.0" text="Cat">
+                        <ToggleButton mnemonicParsing="false" onAction="#orderByCat" prefHeight="56.0" prefWidth="120.0" text="Cat" toggleGroup="$orderBy">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
                         </ToggleButton>
-                        <ToggleButton mnemonicParsing="false" onAction="#orderByRating" prefHeight="56.0" prefWidth="120.0" text="Rating">
+                        <ToggleButton mnemonicParsing="false" onAction="#orderByRating" prefHeight="56.0" prefWidth="120.0" text="Rating" toggleGroup="$orderBy">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -95,7 +98,7 @@
                         </TextField>
                      </children>
                   </HBox>
-                  <ListView fx:id="movieList" prefHeight="666.0" prefWidth="304.0" />
+                  <ListView fx:id="movieList" onMouseReleased="#selectMovie" prefHeight="666.0" prefWidth="304.0" />
                   <HBox prefHeight="45.0" prefWidth="304.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#addMovie" prefWidth="101.0" text="Add" />

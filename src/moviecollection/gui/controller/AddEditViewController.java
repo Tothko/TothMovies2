@@ -71,6 +71,10 @@ public class AddEditViewController implements Initializable {
         
         if(edit)
         {
+            editMovie.setTitle(movieTitle.getText());
+            editMovie.setMovieYear(yearShort);
+            editMovie.setFilePath(fileField.getText());
+            mvc.editMovie(editMovie);
             
         } else {
             Movie m = new Movie();
