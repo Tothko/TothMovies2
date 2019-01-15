@@ -211,5 +211,28 @@ public class MovieDao
             Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public List<Integer> getMovieCategories(Movie movie){
+        List<Integer> movieCategories = new ArrayList<>();
+                
+        {
+        try(Connection con = conProvider.getConnection()){
+            String sql = "SELECT CatID from CatMovie Where MovieID = "+movie.getId();
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while(rs.next())
+            {
+                movieCategories.add(rs.getInt("CatID"));
+            }
+            
+            
+         } catch (SQLServerException ex)
+        {
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch(SQLException ex){
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return movieCategories;
+    }
     
-}
+}}
