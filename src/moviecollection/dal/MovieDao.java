@@ -40,6 +40,7 @@ public class MovieDao
             retval.setFilePath(rs.getString("FilePath"));
             retval.setPersonalRating(rs.getShort("PersonalRating"));
             retval.setRating(rs.getShort("GlobalRating"));
+            retval.setMovieYear(rs.getShort("Year"));
         } catch (SQLException ex)
         {
             Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,7 +70,7 @@ public class MovieDao
         return movies;
     }
 
-    public void editMovie(Movie movie, List<Category> categories) { //Missing editing of categories
+    public void editMovie(Movie movie, List<Category> categories) { 
         
         try(Connection con = conProvider.getConnection())
         {
@@ -171,12 +172,13 @@ public class MovieDao
     public void addMovie(Movie movie, List<Category> categories) { //Missing adding categories
         
         try(Connection con = conProvider.getConnection()){
-            String sql = "INSERT INTO Movies (Title,GlobalRating,PersonalRating,FilePath) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO Movies (Title,GlobalRating,PersonalRating,FilePath,Year) VALUES (?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, movie.getTitle());
             ps.setShort(2, movie.getRating());
             ps.setShort(3, movie.getPersonalRating());
             ps.setString(4, movie.getFilePath());
+            ps.setShort(5, movie.getMovieYear());
             ps.execute();
             ResultSet rs = con.createStatement().executeQuery("SELECT MAX(ID) as ID FROM Movies"); //this is done because we need to provide id to newly created movie object
             rs.next();
