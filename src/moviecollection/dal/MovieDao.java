@@ -133,7 +133,7 @@ public class MovieDao
         }
         try(Connection con = conProvider.getConnection())
         {
-            String sqlStatement = "SELECT DISTINCT Movies.* "
+            String sqlStatement = "SELECT DISTINCT Movies.*,CatMovie.CatID AS Category "
                     + "FROM Movies LEFT JOIN CatMovie ON CatMovie.MovieID = Movies.ID "
                     + "WHERE Movies.GlobalRating >= ? AND Movies.Title LIKE ? " + catFilter + " ORDER BY " + filter.getSortType().name();
             PreparedStatement ps = con.prepareStatement(sqlStatement);
