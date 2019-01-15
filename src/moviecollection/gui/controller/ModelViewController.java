@@ -124,6 +124,26 @@ public class ModelViewController
         return movieEditCheckBoxes;
     }
     
+    public ObservableList<CheckBox> getMovieEditCheckBoxes(Movie m)
+    {
+        movieEditCheckBoxes = FXCollections.observableArrayList();
+        List<Integer> movieCatIds = model.getMovieCategories(m);
+        for (Category category : categoryList)
+        {
+            CheckBox chb = new CheckBox(category.getName());
+            for (Integer movieCatId : movieCatIds)
+            {
+                if(movieCatId == category.getId())
+                {
+                    chb.setSelected(true);
+                    break;
+                }
+            }
+            movieEditCheckBoxes.add(chb);
+        }
+        return movieEditCheckBoxes;
+    }
+    
     public void addMovie(Movie m)
     {
         if(!movieList.contains(m))
