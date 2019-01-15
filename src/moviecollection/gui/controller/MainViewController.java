@@ -158,9 +158,9 @@ public class MainViewController implements Initializable
             stage.setScene(new Scene(loader.load()));
 
             AddEditViewController window = loader.<AddEditViewController>getController();
+            window.setMovie(selectedMovie);
             window.setModel(model);
             window.setEdit(true);
-            window.setMovie(selectedMovie);
             stage.showAndWait();
             movieList.refresh();
             selectMovie(null);

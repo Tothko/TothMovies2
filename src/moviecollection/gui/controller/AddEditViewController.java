@@ -61,7 +61,7 @@ public class AddEditViewController implements Initializable {
         String year = movieYear.getText();
         short yearShort;
         //add shit
-        if (!(year.matches("[0-9]+") && year.length() == 4))
+        if (!(year.matches("[0-9]+") && year.length() == 4)  || !year.isEmpty()) //If format isnt numbers with length 4 or is not empty
         {
             System.out.println("INVALID YEAR");
             return;
@@ -93,7 +93,10 @@ public class AddEditViewController implements Initializable {
     public void setModel(ModelViewController mvc)
     {
         this.mvc = mvc;
-        movieCat.setItems(mvc.getMovieEditCheckBoxes());
+        if(editMovie != null)
+            movieCat.setItems(mvc.getMovieEditCheckBoxes(editMovie));
+        else
+            movieCat.setItems(mvc.getMovieEditCheckBoxes());
     }
 
     @FXML
