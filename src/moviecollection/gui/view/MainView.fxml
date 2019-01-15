@@ -115,7 +115,7 @@
                      <children>
                         <ImageView fitHeight="210.0" fitWidth="161.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
                         <Label fx:id="movieTitle" layoutX="14.0" layoutY="224.0" text="Movie Title" />
-                        <Text fx:id="movieDesc" layoutX="14.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="87.6708984375" />
+                        <Text fx:id="movieCats" layoutX="14.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Categories: " wrappingWidth="87.6708984375" />
                         <Button layoutX="414.0" layoutY="622.0" mnemonicParsing="false" onAction="#pressPlay" text="Play" />
                         <GridPane layoutX="252.0" layoutY="58.0">
                           <columnConstraints>

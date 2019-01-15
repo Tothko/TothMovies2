@@ -46,8 +46,6 @@ public class MainViewController implements Initializable
     @FXML
     private Label movieTitle;
     @FXML
-    private Text movieDesc;
-    @FXML
     private ProgressBar ratingBar;
     @FXML
     private Label rating;
@@ -57,6 +55,8 @@ public class MainViewController implements Initializable
     private TextField catSearchBar;
     @FXML
     private ToggleGroup orderBy;
+    @FXML
+    private Text movieCats;
     
    
     @Override
@@ -189,6 +189,11 @@ public class MainViewController implements Initializable
         movieTitle.setText(m.getTitle());
         if(m.getMovieYear()!=0)
             movieTitle.setText(movieTitle.getText()+" ("+m.getMovieYear()+")");
+        movieCats.setText("Categories:\n");
+        List<Category> categories = model.getMovieCategories(m);
+        for (Category c : categories) {
+            movieCats.setText(movieCats.getText()+c+"\n");
+        }
     }
     
 }
