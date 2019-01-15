@@ -144,6 +144,24 @@ public class ModelViewController
         return movieEditCheckBoxes;
     }
     
+    public List<Category> getMovieCategories(Movie m)
+    {
+        List<Category> retval = new ArrayList();
+        List<Integer> movieCats = model.getMovieCategories(m);
+        for (Integer movieCat : movieCats)
+        {
+            for (Category cat : categoryList)
+            {
+                if(cat.getId() == movieCat)
+                {
+                    retval.add(cat);
+                    break;
+                }
+            }
+        }
+        return retval;
+    }
+    
     public void addMovie(Movie m)
     {
         if(!movieList.contains(m))
