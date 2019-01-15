@@ -55,6 +55,8 @@ public class MainViewController implements Initializable
     private TextField movieTextFilter;
     @FXML
     private TextField catSearchBar;
+    @FXML
+    private ToggleGroup orderBy;
     
    
     @Override
@@ -83,17 +85,21 @@ public class MainViewController implements Initializable
 
     @FXML
     private void orderByTitle(ActionEvent event)
+            
     {
+        model.setOrderBy(MovieFilter.SortType.Title);
     }
 
     @FXML
     private void orderByCat(ActionEvent event)
     {
+        model.setOrderBy(MovieFilter.SortType.Category);
     }
 
     @FXML
     private void orderByRating(ActionEvent event)
     {
+        model.setOrderBy(MovieFilter.SortType.GlobalRating);
     }
 
     @FXML
