@@ -195,7 +195,21 @@ public class MovieDao
     
     public void setMoviePersonalRating(Movie movie, short rating)
     {
-            
+            try(Connection con = conProvider.getConnection())
+        {
+            String sql = "UPDATE Movies SET Rating = ?, WHERE id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setShort(1, rating);
+            ps.setInt(2, movie.getId());
+            ps.execute();
+                 
+        } catch (SQLServerException ex)
+        {
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch(SQLException ex){
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
