@@ -274,6 +274,7 @@ public class ModelViewController
             {
                 try {
                     categoryCheckBoxList.remove(chb);
+                    categoryList.remove(delCat);
                     model.removeCategory(delCat);
                     break;
                 } catch (MovieCollectionException ex) {
