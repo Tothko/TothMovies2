@@ -16,14 +16,14 @@ import moviecollection.be.MovieFilter;
  */
 public interface IDataAccess
 {
-    public List<Movie> getFilteredMovies(MovieFilter filter);
-    public List<Movie> getAllMovies();
-    public List<Category> getAllCategories();
-    public void addMovie(Movie movie, List<Category> categories);
-    public void removeMovie(Movie movie);
-    public void addCategory(Category category);
-    public void removeCategory(Category category);
-    public void editMovie(Movie movie, List<Category> categories);
-    public void setMoviePersonalRating(Movie movie,short rating);
-    public List<Integer> getMovieCategories(Movie m);
+    public List<Movie> getFilteredMovies(MovieFilter filter) throws DataLayerException;
+    public List<Movie> getAllMovies() throws DataLayerException;
+    public List<Category> getAllCategories() throws DataLayerException;
+    public void addMovie(Movie movie, List<Category> categories) throws DataLayerException;
+    public void removeMovie(Movie movie) throws DataLayerException;
+    public void addCategory(Category category) throws DataLayerException;
+    public void removeCategory(Category category) throws DataLayerException;
+    public void editMovie(Movie movie, List<Category> categories) throws DataLayerException;
+    public void setMoviePersonalRating(Movie movie,short rating) throws DataLayerException;
+    public List<Integer> getMovieCategories(Movie m) throws DataLayerException;
 }

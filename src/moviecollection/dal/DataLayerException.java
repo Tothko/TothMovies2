@@ -5,13 +5,18 @@
  */
 package moviecollection.dal;
 
-import java.sql.Connection;
+import moviecollection.MovieCollectionException;
 
 /**
  *
  * @author Marek
  */
-public interface IDbProvider
+public class DataLayerException extends MovieCollectionException
 {
-    public Connection getConnection() throws DataLayerException;
+
+    public DataLayerException(String message)
+    {
+        super(message);
+    }
+    
 }

@@ -6,6 +6,7 @@
 package moviecollection.bll;
 
 import java.util.List;
+import moviecollection.MovieCollectionException;
 import moviecollection.be.Category;
 import moviecollection.be.Movie;
 import moviecollection.be.MovieFilter;
@@ -16,14 +17,14 @@ import moviecollection.be.MovieFilter;
  */
 public interface IModel
 {
-    public List<Movie> getFilteredMovies(MovieFilter filter);
-    public List<Movie> getAllMovies();
-    public List<Category> getAllCategories();
-    public void addMovie(Movie m, List<Category> categories);
-    public void removeMovie(Movie m);
-    public void addCategory(Category c);
-    public void removeCategory(Category c);
-    public void editMovie(Movie m, List<Category> categories);
-    public void setMoviePersonalRating(Movie m, short rating);
-    public List<Integer> getMovieCategories(Movie m);
+    public List<Movie> getFilteredMovies(MovieFilter filter) throws MovieCollectionException;
+    public List<Movie> getAllMovies()  throws MovieCollectionException;
+    public List<Category> getAllCategories() throws MovieCollectionException;
+    public void addMovie(Movie m, List<Category> categories) throws MovieCollectionException;
+    public void removeMovie(Movie m) throws MovieCollectionException;
+    public void addCategory(Category c) throws MovieCollectionException;
+    public void removeCategory(Category c) throws MovieCollectionException;
+    public void editMovie(Movie m, List<Category> categories) throws MovieCollectionException;
+    public void setMoviePersonalRating(Movie m, short rating) throws MovieCollectionException;
+    public List<Integer> getMovieCategories(Movie m) throws MovieCollectionException;
 }

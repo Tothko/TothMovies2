@@ -23,14 +23,15 @@ public class DbProvider implements IDbProvider
     private SQLServerDataSource ds; 
     private Properties prop;
     
-    public DbProvider()
+    public DbProvider() throws DataLayerException
     {
         ds = new SQLServerDataSource();
         prop = new Properties();      
         loadProperties();
     }
     
-    public Connection getConnection()
+    @Override
+    public Connection getConnection() throws DataLayerException
     {
         try
         {
@@ -38,16 +39,17 @@ public class DbProvider implements IDbProvider
         } catch (SQLServerException ex)
         {
             Logger.getLogger(DbProvider.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DataLayerException("Can not connect to database : '" + prop.getProperty("DbName") + "'");
         }
-        return null;
     }
     
-    private void loadProperties()
+    private void loadProperties() throws DataLayerException
     {
         try(FileInputStream input = new FileInputStream("src/moviecollection/DbConnection.prop")){
             prop.load(input);
         }catch(IOException ex){
-           Logger.getLogger(DbProvider.class.getName()).log(Level.SEVERE, null, ex); 
+            Logger.getLogger(DbProvider.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DataLayerException("Database properties file is not accessible");
         }
         ds.setDatabaseName(prop.getProperty("DbName"));
         ds.setUser(prop.getProperty("UserName"));

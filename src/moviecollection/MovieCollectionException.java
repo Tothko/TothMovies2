@@ -3,15 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package moviecollection.dal;
-
-import java.sql.Connection;
+package moviecollection;
 
 /**
  *
  * @author Marek
  */
-public interface IDbProvider
+public class MovieCollectionException extends Exception
 {
-    public Connection getConnection() throws DataLayerException;
+
+    public MovieCollectionException(String message)
+    {
+        super(message);
+    }
+    
 }

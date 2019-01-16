@@ -6,6 +6,7 @@
 package moviecollection.bll;
 
 import java.util.List;
+import moviecollection.MovieCollectionException;
 import moviecollection.be.Category;
 import moviecollection.be.Movie;
 import moviecollection.be.MovieFilter;
@@ -23,68 +24,68 @@ public class BusinessModel implements IModel
     
     //Change for GITHUB
     // Good change for GITHUB
-    public BusinessModel()
+    public BusinessModel() throws MovieCollectionException
     {
         dao = new DataAccess();
     }
     
 
     @Override
-    public List<Movie> getFilteredMovies(MovieFilter filter)
+    public List<Movie> getFilteredMovies(MovieFilter filter) throws MovieCollectionException
     {
         return dao.getFilteredMovies(filter);
     }
 
     @Override
-    public List<Movie> getAllMovies()
+    public List<Movie> getAllMovies() throws MovieCollectionException
     {
         return dao.getAllMovies();
     }
 
     @Override
-    public List<Category> getAllCategories()
+    public List<Category> getAllCategories() throws MovieCollectionException
     {
         return dao.getAllCategories();
     }
 
     @Override
-    public void addMovie(Movie m, List<Category> categories)
+    public void addMovie(Movie m, List<Category> categories) throws MovieCollectionException
     {
         dao.addMovie(m, categories);
     }
 
     @Override
-    public void removeMovie(Movie m)
+    public void removeMovie(Movie m) throws MovieCollectionException
     {
         dao.removeMovie(m);
     }
 
     @Override
-    public void addCategory(Category c)
+    public void addCategory(Category c) throws MovieCollectionException
     {
         dao.addCategory(c);
     }
 
     @Override
-    public void removeCategory(Category c)
+    public void removeCategory(Category c) throws MovieCollectionException
     {
         dao.removeCategory(c);
     }
 
     @Override
-    public void editMovie(Movie m, List<Category> categories)
+    public void editMovie(Movie m, List<Category> categories) throws MovieCollectionException
     {
         dao.editMovie(m, categories);
     }
 
     @Override
-    public void setMoviePersonalRating(Movie m, short rating)
+    public void setMoviePersonalRating(Movie m, short rating) throws MovieCollectionException
     {
         dao.setMoviePersonalRating(m, rating);
     }
     
     @Override
-    public List<Integer> getMovieCategories(Movie m)
+    public List<Integer> getMovieCategories(Movie m) throws MovieCollectionException
     {
         return dao.getMovieCategories(m);
     }

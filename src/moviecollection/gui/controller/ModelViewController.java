@@ -10,10 +10,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
+import moviecollection.MovieCollectionException;
 import moviecollection.be.Category;
 import moviecollection.be.Movie;
 import moviecollection.be.MovieFilter;
@@ -42,16 +44,22 @@ public class ModelViewController
     }*/
     public ModelViewController()
     {
-        model = new BusinessModel();
-        filter = new MovieFilter();
-        movieList = FXCollections.observableArrayList(model.getAllMovies());
-        categoryCheckBoxList = FXCollections.observableArrayList();
-        categoryList = FXCollections.observableArrayList();
-        categoryList = model.getAllCategories();
-        for(Category cat: categoryList)
+        try
         {
-            CheckBox chb = createCheckBoxFromCategory(cat);
-            categoryCheckBoxList.add(chb);
+            model = new BusinessModel();
+            filter = new MovieFilter();
+            movieList = FXCollections.observableArrayList(model.getAllMovies());
+            categoryCheckBoxList = FXCollections.observableArrayList();
+            categoryList = FXCollections.observableArrayList();
+            categoryList = model.getAllCategories();
+            for(Category cat: categoryList)
+            {
+                CheckBox chb = createCheckBoxFromCategory(cat);
+                categoryCheckBoxList.add(chb);
+            }
+        } catch (MovieCollectionException ex)
+        {
+            Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -74,7 +82,13 @@ public class ModelViewController
                         filter.addCategory(cat);
                     else
                         filter.removeCategory(cat);
-                    movieList.setAll(model.getFilteredMovies(this.filter));
+                    try
+                    {
+                        movieList.setAll(model.getFilteredMovies(this.filter));
+                    } catch (MovieCollectionException ex)
+                    {
+                        Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }   
             });
             return chb;
@@ -82,26 +96,50 @@ public class ModelViewController
     
     public void setMovieFilter(String filter)
     {
-        this.filter.setTitle(filter);
-        movieList.setAll(model.getFilteredMovies(this.filter));
+        try
+        {
+            this.filter.setTitle(filter);
+            movieList.setAll(model.getFilteredMovies(this.filter));
+        } catch (MovieCollectionException ex)
+        {
+            Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void setIncludeAll(boolean includeAll)
     {
-        filter.setIncludeAll(includeAll);
-        movieList.setAll(model.getFilteredMovies(filter));  
+        try
+        {  
+            filter.setIncludeAll(includeAll);
+            movieList.setAll(model.getFilteredMovies(filter));
+        } catch (MovieCollectionException ex)
+        {
+            Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void setOrderBy(MovieFilter.SortType order)
     {
-        filter.setOrder(order);
-        movieList.setAll(model.getFilteredMovies(filter)); 
+        try
+        { 
+            filter.setOrder(order);
+            movieList.setAll(model.getFilteredMovies(filter));
+        } catch (MovieCollectionException ex)
+        {
+            Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void setMinimumRating(short rating)
     {
-        filter.setRating(rating);
-        movieList.setAll(model.getFilteredMovies(filter)); 
+        try
+        { 
+            filter.setRating(rating);
+            movieList.setAll(model.getFilteredMovies(filter));
+        } catch (MovieCollectionException ex)
+        {
+            Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public ObservableList<Movie> getMovieList()
@@ -126,48 +164,66 @@ public class ModelViewController
     
     public ObservableList<CheckBox> getMovieEditCheckBoxes(Movie m)
     {
-        movieEditCheckBoxes = FXCollections.observableArrayList();
-        List<Integer> movieCatIds = model.getMovieCategories(m);
-        for (Category category : categoryList)
+        try
         {
-            CheckBox chb = new CheckBox(category.getName());
-            for (Integer movieCatId : movieCatIds)
+            movieEditCheckBoxes = FXCollections.observableArrayList();
+            List<Integer> movieCatIds = model.getMovieCategories(m);
+            for (Category category : categoryList)
             {
-                if(movieCatId == category.getId())
+                CheckBox chb = new CheckBox(category.getName());
+                for (Integer movieCatId : movieCatIds)
                 {
-                    chb.setSelected(true);
-                    break;
+                    if(movieCatId == category.getId())
+                    {
+                        chb.setSelected(true);
+                        break;
+                    }
                 }
+                movieEditCheckBoxes.add(chb);
             }
-            movieEditCheckBoxes.add(chb);
+            return movieEditCheckBoxes;
+        } catch (MovieCollectionException ex)
+        {
+            Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return movieEditCheckBoxes;
+        return null;
     }
     
     public List<Category> getMovieCategories(Movie m)
     {
-        List<Category> retval = new ArrayList();
-        List<Integer> movieCats = model.getMovieCategories(m);
-        for (Integer movieCat : movieCats)
+        try
         {
-            for (Category cat : categoryList)
+            List<Category> retval = new ArrayList();
+            List<Integer> movieCats = model.getMovieCategories(m);
+            for (Integer movieCat : movieCats)
             {
-                if(cat.getId() == movieCat)
+                for (Category cat : categoryList)
                 {
-                    retval.add(cat);
-                    break;
+                    if(cat.getId() == movieCat)
+                    {
+                        retval.add(cat);
+                        break;
+                    }
                 }
             }
+            return retval;
+        } catch (MovieCollectionException ex)
+        {
+            Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return retval;
+        return null;
     }
     
     public void addMovie(Movie m)
     {
         if(!movieList.contains(m))
         {
-            model.addMovie(m,getSelectedCategoryList(movieEditCheckBoxes));
-            movieList.add(m);
+            try {
+                model.addMovie(m,getSelectedCategoryList(movieEditCheckBoxes));
+                movieList.add(m);
+            } catch (MovieCollectionException ex) {
+                Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
@@ -175,21 +231,31 @@ public class ModelViewController
     {
         if(movieList.contains(m))
         {
-            model.removeMovie(m);
-            movieList.remove(m);
+            try {
+                model.removeMovie(m);
+                movieList.remove(m);
+            } catch (MovieCollectionException ex) {
+                Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
     public void addCategory(Category c)
     {
-        for(CheckBox chb: categoryCheckBoxList)
+        try
         {
-            if(chb.getText().toLowerCase().equals(c.getName().toLowerCase()))
-                return;
+            for(CheckBox chb: categoryCheckBoxList)
+            {
+                if(chb.getText().toLowerCase().equals(c.getName().toLowerCase()))
+                    return;
+            }
+            model.addCategory(c);
+            categoryList.add(c);
+            categoryCheckBoxList.add(createCheckBoxFromCategory(c));
+        } catch (MovieCollectionException ex)
+        {
+            Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        model.addCategory(c);
-        categoryList.add(c);
-        categoryCheckBoxList.add(createCheckBoxFromCategory(c));
     }
     
     public void removeCategory(String categoryName)
@@ -206,9 +272,13 @@ public class ModelViewController
         {
             if(chb.getText().toLowerCase().equals(categoryName.toLowerCase()))
             {
-                categoryCheckBoxList.remove(chb);
-                model.removeCategory(delCat);
-                break;
+                try {
+                    categoryCheckBoxList.remove(chb);
+                    model.removeCategory(delCat);
+                    break;
+                } catch (MovieCollectionException ex) {
+                    Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -217,7 +287,13 @@ public class ModelViewController
     {
         if(movieList.contains(m))
         {
-            model.editMovie(m,getSelectedCategoryList(movieEditCheckBoxes));
+            try
+            {
+                model.editMovie(m,getSelectedCategoryList(movieEditCheckBoxes));
+            } catch (MovieCollectionException ex)
+            {
+                Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
@@ -225,8 +301,12 @@ public class ModelViewController
     {
         if(movieList.contains(m))
         {
-            m.setPersonalRating(rating);
-            model.setMoviePersonalRating(m,rating);
+            try {
+                m.setPersonalRating(rating);
+                model.setMoviePersonalRating(m,rating);
+            } catch (MovieCollectionException ex) {
+                Logger.getLogger(ModelViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     

@@ -25,24 +25,20 @@ public class CategoryDao
        
 {
     private DbProvider conProvider;
-    public CategoryDao(){
-    conProvider = new DbProvider();
-}
     
-    private Category CategoryFromRs(ResultSet rs)
+    public CategoryDao() throws DataLayerException
+    {
+        conProvider = new DbProvider();
+    }
+    
+    private Category CategoryFromRs(ResultSet rs) throws SQLException
     {
         Category retval = null;
-        try
-        {
-            retval = new Category(rs.getInt("ID"),rs.getString("Name"));
-        } catch (SQLException ex)
-        {
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         retval = new Category(rs.getInt("ID"),rs.getString("Name"));
         return retval;
     }
     
-    public List<Category> getlAllCategories() {
+    public List<Category> getlAllCategories() throws DataLayerException {
         
         List<Category> Categories = new ArrayList<>();
         try(Connection con = conProvider.getConnection())
@@ -54,32 +50,28 @@ public class CategoryDao
             {
                 Categories.add(CategoryFromRs(rs));
             }
-        } catch (SQLServerException ex)
-        {
+        } 
+        catch(SQLException ex){ //This shouldnt happen
             Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch(SQLException ex){
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DataLayerException("Error in SQL command : " + ex.getMessage()); 
         }
         return Categories;
     
     }
 
-    public void removeCategory(Category c){
+    public void removeCategory(Category c) throws DataLayerException{
         try (Connection con = conProvider.getConnection()){
             String sql = "DELETE FROM CatMovie WHERE CatID = " + c.getId() + " DELETE FROM Categories WHERE ID = " + c.getId();
-            Statement stmt = con.createStatement();// prepareStatement(sql);
+            Statement stmt = con.createStatement();
             stmt.execute(sql);
         }
-        catch(SQLServerException ex){
+        catch(SQLException ex){ //This shouldnt happen
             Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch(SQLException ex){
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DataLayerException("Error in SQL command : " + ex.getMessage()); 
         }
     }
 
-    public void addCategory(Category c) 
+    public void addCategory(Category c) throws DataLayerException 
     {
         try (Connection con = conProvider.getConnection()){
             String sql = "INSERT INTO Categories (Name) VALUES (?)";
@@ -90,11 +82,9 @@ public class CategoryDao
             rs.next();
             c.setId(rs.getInt("ID"));
         }
-        catch(SQLServerException ex){
+        catch(SQLException ex){ //This shouldnt happen
             Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch(SQLException ex){
-            Logger.getLogger(CategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DataLayerException("Error in SQL command : " + ex.getMessage()); 
         }
     }
     
