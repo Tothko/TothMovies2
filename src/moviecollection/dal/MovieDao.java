@@ -90,7 +90,7 @@ public class MovieDao
         }
     }
 
-    public List<Movie> getFilteredMovies(MovieFilter filter) throws DataLayerException  //We will see wether we will add lsit of categories to each movie
+    public List<Movie> getFilteredMovies(MovieFilter filter) throws DataLayerException 
     {
         List<Movie> movies = new ArrayList<>();
         List<Category> catList = filter.getCategories();
@@ -112,8 +112,12 @@ public class MovieDao
             ps.setInt(1, filter.getRating());
             ps.setString(2, filter.getTitle() + "%");
             ResultSet rs = ps.executeQuery();
+            int tempMovieId = -1;
             while(rs.next())
             {
+                if(rs.getInt("ID") == tempMovieId)
+                    continue;
+                tempMovieId = rs.getInt("ID");
                 movies.add(movieFromRs(rs));
             }
         } 
