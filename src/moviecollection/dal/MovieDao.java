@@ -75,7 +75,7 @@ public class MovieDao
         try(Connection con = conProvider.getConnection())
         {
             String sql = "UPDATE Movies SET Title = ?, GlobalRating = ?, PersonalRating = ?, FilePath = ?, Year = ? WHERE id = ?";
-            String sql2 = "UPDATE CatMovie SET MovieID = ? , CatID = ?, WHERE MovieID = "+movie.getId();
+            String sql2 = "UPDATE CatMovie SET MovieID = ? , CatID = ? WHERE MovieID = "+movie.getId();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, movie.getTitle());
             ps.setShort(2, movie.getRating());
@@ -220,24 +220,36 @@ public class MovieDao
         List<Integer> movieCategories = new ArrayList<>();
                 
         {
-        try(Connection con = conProvider.getConnection()){
-            String sql = "SELECT CatID from CatMovie Where MovieID = "+movie.getId();
-            Statement statement = con.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next())
+            try(Connection con = conProvider.getConnection()){
+                String sql = "SELECT CatID from CatMovie Where MovieID = "+movie.getId();
+                Statement statement = con.createStatement();
+                ResultSet rs = statement.executeQuery(sql);
+                while(rs.next())
+                {
+                    movieCategories.add(rs.getInt("CatID"));
+                }
+
+
+            } catch (SQLServerException ex)
             {
-                movieCategories.add(rs.getInt("CatID"));
+                Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
-         } catch (SQLServerException ex)
-        {
-            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
+            catch(SQLException ex){
+                Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return movieCategories;
         }
-        catch(SQLException ex){
-            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return movieCategories;
     }
-    
-}}
+        
+//    public void addMovieCategories(Movie m, List<Category> categories){
+//        try(Connection con = conProvider.getConnection()){
+//            for (Category c : categories) {
+//                String sql = "INSERT INTO CatMovie (MovieID,CatID) VALUES ( " + m.getId() + ',' + c.getId() + " );";
+//                Statement stmt = con.createStatement();
+//                stmt.executeQuery(sql);
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+}

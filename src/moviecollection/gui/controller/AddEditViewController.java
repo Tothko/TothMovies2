@@ -59,10 +59,12 @@ public class AddEditViewController implements Initializable {
     @FXML
     private void pressSave(ActionEvent event) {
         String year = movieYear.getText();
-        short yearShort;
-        //add shit
-        if (!(year.matches("[0-9]+") && year.length() == 4)  || !year.isEmpty()) //If format isnt numbers with length 4 or is not empty
+        short yearShort = 0;
+        loop:
+        if (!(year.matches("[0-9]+") && year.length() == 4)) //If format isnt numbers with length 4
         {
+            if(year.isEmpty()) //Checks if the textfield is empty, exits if statement if true
+                break loop;
             System.out.println("INVALID YEAR");
             return;
         } else {
@@ -82,6 +84,7 @@ public class AddEditViewController implements Initializable {
             m.setMovieYear(yearShort);
             m.setFilePath(fileField.getText());
             //ADD CATEGORIES
+            
             mvc.addMovie(m);
             
         }
@@ -115,7 +118,8 @@ public class AddEditViewController implements Initializable {
     {
         editMovie = m;
         movieTitle.setText(editMovie.getTitle());
-        movieYear.setText(""+editMovie.getMovieYear());
+        if(editMovie.getMovieYear()!=0)
+            movieYear.setText(""+editMovie.getMovieYear());
         fileField.setText(editMovie.getFilePath());
     }
     

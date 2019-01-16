@@ -192,7 +192,7 @@ public class MainViewController implements Initializable
         movieCats.setText("Categories:\n");
         List<Category> categories = model.getMovieCategories(m);
         for (Category c : categories) {
-            movieCats.setText(movieCats.getText()+c+"\n");
+            movieCats.setText(movieCats.getText()+c.getName()+"\n");
         }
     }
     
