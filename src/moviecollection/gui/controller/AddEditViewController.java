@@ -7,16 +7,20 @@ package moviecollection.gui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import moviecollection.MovieCollectionException;
 import moviecollection.be.Category;
 import moviecollection.be.Movie;
 
@@ -76,7 +80,13 @@ public class AddEditViewController implements Initializable {
             editMovie.setTitle(movieTitle.getText());
             editMovie.setMovieYear(yearShort);
             editMovie.setFilePath(fileField.getText());
-            mvc.editMovie(editMovie);
+            try
+            {
+                mvc.editMovie(editMovie);
+            } catch (MovieCollectionException ex)
+            {
+                new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+            }
             
         } else {
             Movie m = new Movie();
@@ -84,8 +94,13 @@ public class AddEditViewController implements Initializable {
             m.setMovieYear(yearShort);
             m.setFilePath(fileField.getText());
             //ADD CATEGORIES
-            
-            mvc.addMovie(m);
+            try
+            {
+                mvc.addMovie(m);
+            } catch (MovieCollectionException ex)
+            {
+                new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+            }
             
         }
         
@@ -95,11 +110,17 @@ public class AddEditViewController implements Initializable {
     
     public void setModel(ModelViewController mvc)
     {
-        this.mvc = mvc;
-        if(editMovie != null)
-            movieCat.setItems(mvc.getMovieEditCheckBoxes(editMovie));
-        else
-            movieCat.setItems(mvc.getMovieEditCheckBoxes());
+        try
+        {
+            this.mvc = mvc;
+            if(editMovie != null)
+                movieCat.setItems(mvc.getMovieEditCheckBoxes(editMovie));
+            else
+                movieCat.setItems(mvc.getMovieEditCheckBoxes());
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }
 
     @FXML
