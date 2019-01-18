@@ -184,8 +184,7 @@ public class MovieDao
         }
     }
     public List<Integer> getMovieCategories(Movie movie) throws DataLayerException{
-        List<Integer> movieCategories = new ArrayList<>();      
-        {
+        List<Integer> movieCategories = new ArrayList<>();
         try(Connection con = conProvider.getConnection()){
             String sql = "SELECT CatID from CatMovie Where MovieID = "+movie.getId();
             Statement statement = con.createStatement();
@@ -193,8 +192,8 @@ public class MovieDao
             while(rs.next())
             {
                 movieCategories.add(rs.getInt("CatID"));
-            } 
-        } 
+            }
+        }
         catch(SQLException ex){
             Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null, ex);
             throw new DataLayerException("Error in SQL command : " + ex.getMessage()); 
@@ -202,4 +201,4 @@ public class MovieDao
         return movieCategories;
     }
     
-}}
+}
