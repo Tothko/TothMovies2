@@ -169,7 +169,7 @@ public class MovieDao
     
     public void setMoviePersonalRating(Movie movie, short rating) throws DataLayerException
     {
-            try(Connection con = conProvider.getConnection())
+        try(Connection con = conProvider.getConnection())
         {
             String sql = "UPDATE Movies SET PersonalRating = ? WHERE id = ?";
             PreparedStatement ps = con.prepareStatement(sql);

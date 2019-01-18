@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +28,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import moviecollection.MovieCollectionException;
 import moviecollection.be.Category;
 import moviecollection.be.Movie;
 import moviecollection.be.MovieFilter;
@@ -67,10 +70,16 @@ public class MainViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        model = new ModelViewController();
-        // TODO
-        catList.setItems(model.getCategoryList());
-        movieList.setItems(model.getMovieList());        
+        try
+        {
+            model = new ModelViewController();
+            // TODO
+            catList.setItems(model.getCategoryList());
+            movieList.setItems(model.getMovieList());
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }    
     
     private ModelViewController model;
@@ -79,32 +88,55 @@ public class MainViewController implements Initializable
     @FXML
     private void radioAll(ActionEvent event)
     {
-        model.setIncludeAll(true);
+        //model.setIncludeAll(true);
     }
 
     @FXML
     private void radioOne(ActionEvent event)
     {
-        model.setIncludeAll(false);
+        try
+        {
+            model.setIncludeAll(false);
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }
 
     @FXML
-    private void orderByTitle(ActionEvent event)
-            
+    private void orderByTitle(ActionEvent event)      
     {
-        model.setOrderBy(MovieFilter.SortType.Title);
+        try
+        {
+            model.setOrderBy(MovieFilter.SortType.Title);
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }
 
     @FXML
     private void orderByCat(ActionEvent event)
     {
-        model.setOrderBy(MovieFilter.SortType.Category);
+        try
+        {
+            model.setOrderBy(MovieFilter.SortType.Category);
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }
 
     @FXML
     private void orderByRating(ActionEvent event)
     {
-        model.setOrderBy(MovieFilter.SortType.GlobalRating);
+        try
+        {
+            model.setOrderBy(MovieFilter.SortType.GlobalRating);
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }
 
     @FXML
@@ -115,21 +147,39 @@ public class MainViewController implements Initializable
     @FXML
     private void addCat(ActionEvent event)
     {
-        Category c = new Category(0, catSearchBar.getText());
-        model.addCategory(c);
+        try
+        {
+            Category c = new Category(0, catSearchBar.getText());
+            model.addCategory(c);
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
         
     }
 
     @FXML
     private void removeCat(ActionEvent event)
     {
-        model.removeCategory(catSearchBar.getText());
+        try
+        {
+            model.removeCategory(catSearchBar.getText());
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }
 
     @FXML
     private void searchMovies(KeyEvent event)
     {
-        model.setMovieFilter(movieTextFilter.getText());
+        try
+        {
+            model.setMovieFilter(movieTextFilter.getText());
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }
 
     @FXML
@@ -149,7 +199,13 @@ public class MainViewController implements Initializable
     private void removeMovie(ActionEvent event)
     {
         Movie m = movieList.getSelectionModel().getSelectedItem();
-        model.removeMovie(m);
+        try
+        {
+            model.removeMovie(m);
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }
 
     @FXML
@@ -188,25 +244,37 @@ public class MainViewController implements Initializable
 
     @FXML
     private void selectMovie(MouseEvent event) {
-        Movie m = movieList.getSelectionModel().getSelectedItem();
-        rating.setText(m.getRating()+"/10");
-        ratingBar.setProgress(((double)m.getRating())/10);
-        movieTitle.setText(m.getTitle());
-        if(m.getMovieYear()!=0)
-            movieTitle.setText(movieTitle.getText()+" ("+m.getMovieYear()+")");
-        movieCats.setText("Categories:\n");
-        List<Category> categories = model.getMovieCategories(m);
-        for (Category c : categories) {
-            movieCats.setText(movieCats.getText()+c.getName()+"\n");
-        }    
-        personalRatingLabel.setText(m.getPersonalRating()+"/10");
-        personalRatingSlider.setValue((double) m.getPersonalRating());
+        try
+        {
+            Movie m = movieList.getSelectionModel().getSelectedItem();
+            rating.setText(m.getRating()+"/10");
+            ratingBar.setProgress(((double)m.getRating())/10);
+            movieTitle.setText(m.getTitle());
+            if(m.getMovieYear()!=0)
+                movieTitle.setText(movieTitle.getText()+" ("+m.getMovieYear()+")");
+            movieCats.setText("Categories:\n");
+            List<Category> categories = model.getMovieCategories(m);
+            for (Category c : categories) {
+                movieCats.setText(movieCats.getText()+c.getName()+"\n");
+            }
+            personalRatingLabel.setText(m.getPersonalRating()+"/10");
+            personalRatingSlider.setValue((double) m.getPersonalRating());
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }
 
     @FXML
     private void setPersonalRating(MouseEvent event) {
-        personalRatingLabel.setText((short) personalRatingSlider.getValue()+"/10");
-        model.setMovieRating(movieList.getSelectionModel().getSelectedItem(), (short) personalRatingSlider.getValue());
+        try
+        {
+            personalRatingLabel.setText((short) personalRatingSlider.getValue()+"/10");
+            model.setMovieRating(movieList.getSelectionModel().getSelectedItem(), (short) personalRatingSlider.getValue());
+        } catch (MovieCollectionException ex)
+        {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage()).showAndWait();
+        }
     }
     
 }
