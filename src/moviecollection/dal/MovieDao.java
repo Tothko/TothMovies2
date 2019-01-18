@@ -171,7 +171,7 @@ public class MovieDao
     {
             try(Connection con = conProvider.getConnection())
         {
-            String sql = "UPDATE Movies SET Rating = ?, WHERE id = ?";
+            String sql = "UPDATE Movies SET PersonalRating = ? WHERE id = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setShort(1, rating);
             ps.setInt(2, movie.getId());

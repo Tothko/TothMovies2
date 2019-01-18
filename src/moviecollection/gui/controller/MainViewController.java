@@ -19,6 +19,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyEvent;
@@ -55,6 +56,10 @@ public class MainViewController implements Initializable
     private TextField catSearchBar;
     @FXML
     private ToggleGroup orderBy;
+    @FXML
+    private Slider personalRatingSlider;
+    @FXML
+    private Label personalRatingLabel;
     @FXML
     private Text movieCats;
     
@@ -193,7 +198,15 @@ public class MainViewController implements Initializable
         List<Category> categories = model.getMovieCategories(m);
         for (Category c : categories) {
             movieCats.setText(movieCats.getText()+c.getName()+"\n");
-        }
+        }    
+        personalRatingLabel.setText(m.getPersonalRating()+"/10");
+        personalRatingSlider.setValue((double) m.getPersonalRating());
+    }
+
+    @FXML
+    private void setPersonalRating(MouseEvent event) {
+        personalRatingLabel.setText((short) personalRatingSlider.getValue()+"/10");
+        model.setMovieRating(movieList.getSelectionModel().getSelectedItem(), (short) personalRatingSlider.getValue());
     }
     
 }
